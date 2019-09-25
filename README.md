@@ -97,6 +97,33 @@ if (a.f() || b.y() || true) {
 }
 ```
 
+## Some further notes on folding
+
+Do not fold outside of ```ParenthesizedExpressions``` unless it is something like  ```(10)``` in which case it is perfectly reasoanable to replace ```(10)```, a ```ParenthesizedExpression``` with a ```NumberLiteral```, with just ```10``` the ```NumberLiteral```
+
+Replace if-statements or other statements that are removed because of folding with an instance of the  ```EmptyStatement```.
+
+```java
+if (false) {
+  x = 10;
+}
+```
+
+reduces to ```;``` which is the ```EmptyStatemest```. In this way it is no longer necessary to deal with empty blocks or empty expressions in if-statements.
+
+```java
+if (x)
+  if (false);
+```
+
+The above example reduces to
+
+```java
+if (x);
+```
+
+Removing empty statements is not required---completely uncompensated and not required.
+
 # Java Subset
 
 The program should take as input only a subset of Java defined as follows:
@@ -109,7 +136,8 @@ The program should take as input only a subset of Java defined as follows:
   * No shift operators: ```<<```, ```>>```, and ```>>>```
   * No binary operators: ```^```, ```&```, and ```|```
   * No ```for```-statements
-  
+  * No ```continue``` or ```break statements
+
 So what is left? More than enough to write interesting programs.
 
 ```java
