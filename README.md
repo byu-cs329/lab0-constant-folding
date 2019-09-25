@@ -108,6 +108,7 @@ The program should take as input only a subset of Java defined as follows:
   * No imports
   * No shift operators: ```<<```, ```>>```, and ```>>>```
   * No binary operators: ```^```, ```&```, and ```|```
+  * No ```for```-statements
   
 So what is left? More than enough to write interesting programs.
 
