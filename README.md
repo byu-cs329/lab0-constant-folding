@@ -136,6 +136,7 @@ The program should take as input only a subset of Java defined as follows:
   * No shift operators: ```<<```, ```>>```, and ```>>>```
   * No binary operators: ```^```, ```&```, and ```|```
   * No ```for```-statements
+  * no ```switch```-statements
   * No ```continue``` or ```break statements
 
 So what is left? More than enough to write interesting programs.
