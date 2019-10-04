@@ -6,10 +6,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>edu.byu.cs329</groupId>
-	<artifactId>ConstantFoldingLab</artifactId>
+	<artifactId>lab0-constant-folding</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
-	<name>ConstantFoldingLab</name>
+	<name>lab0-constant-folding</name>
 	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
 
