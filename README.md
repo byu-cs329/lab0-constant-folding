@@ -93,7 +93,7 @@ a.f();
 x = 10;
 ```
 
-That said however, the following example cannot reduct at all because if the call to ```a.y()``` returns true, then ```b.y()``` is never called. 
+That said however, the following example cannot reduce at all because if the call to ```a.y()``` returns true, then ```b.y()``` is never called. 
 
 ```java
 if (a.f() || b.y() || true) {
