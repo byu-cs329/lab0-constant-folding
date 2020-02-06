@@ -81,7 +81,7 @@ This code could reduce to
 
 ```java
 a.f();
-if (a.f()) {
+if (true) {
   x = 10;
 }
 ```
@@ -93,13 +93,35 @@ a.f();
 x = 10;
 ```
 
-That said however, the following example cannot reduce at all because if the call to ```a.y()``` returns true, then ```b.y()``` is never called. 
+That said however, the following example cannot reduce in the same way because if the call to ```a.y()``` returns true, then ```b.y()``` is never called. 
 
 ```java
 if (a.f() || b.y() || true) {
   x = 10;
 }
 ```
+
+It could reduce to
+
+```java
+if (a.f() || b.y()) {
+   ;
+}
+if (true) {
+  x = 10;
+}
+```
+
+Which would then reduce to
+
+```java
+if (!a.f()) {
+  b.y();
+}
+x = 10;
+```
+
+But this reduction is harder than necessary for this lab, so it is not required (though we will give 20 points extra credit for its successful implementation along with at least two unit tests: one must be the above example, the other an example of your choice. Specifically mention in your pull-request that you completed the extra credit).
 
 ## Some further notes on folding
 
