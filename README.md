@@ -121,7 +121,7 @@ if (!a.f()) {
 x = 10;
 ```
 
-But this reduction is harder than necessary for this lab, so it is not required (though we will give 20 points extra credit for its successful implementation along with at least two unit tests: one must be the above example, the other an example of your choice. Specifically mention in your pull-request that you completed the extra credit).
+But this reduction (short-circuiting with three operands) is harder than necessary for this lab, so it is not required (though we will give 20 points extra credit for its successful implementation along with at least two unit tests: one must be the above example, the other an example of your choice. Specifically mention in your pull-request that you completed the extra credit).
 
 ## Some further notes on folding
 
@@ -171,7 +171,7 @@ Note the restriction on extended operands to numeric expressions and only in the
   1. Implement a test framework, with tests, using black-box functional test techniques to determine when constant folding works correctly. The tests should be organized in a way to make clear the input partitioning.
   2. Implement constant folding for the Java Subset with the [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html)
 
-If it highly reccomended to implement multiple visitors. For example, implemente one visitor to fold `InfixExpressions` and a second visitor te fold statements after expressions are reduced.
+It is highly recommended to implement multiple visitors. For example, implement one visitor to fold `InfixExpressions` and a second visitor to fold statements (if, while, do) after `InfixExpressions` are reduced.
   
 ## Suggested order of attack:
 
@@ -186,7 +186,7 @@ For the test framework, here are some things to consider:
   * What would a boundary value analysis look like?
   * How can you isolate things to only test one feature at time? For example, it may not be wise to write a test to see if **dead code** is removed correctly but have that test first rely on the implementation for short-circuit evaluation of boolean expressions working as expected.
 
-Do not implement more than is required by the test, and do not be afraid to create a lot of tests. Let the test define what needs to be implemented. And create a test for everything that needs to be implemented according to the input partitions. Add code to throw `UnsupportedException` for things not yet implemented as you code along. For example, if additions is the only thing implemented so far, then expressions with other operators should throw on exception. In this way it is easier to keep track of what is yet to be implemented.
+Do not implement more than is required by the test, and do not be afraid to create a lot of tests. Let the test define what needs to be implemented. Create a test for everything that needs to be implemented according to the input partitions. Add code to throw `UnsupportedException` for things not yet implemented as you code along. For example, if additions is the only thing implemented so far, then expressions with other operators should throw on exception. In this way it is easier to keep track of what is yet to be implemented.
 
 # What to turn in?
 
@@ -208,7 +208,7 @@ Breakdown of Implementation **(60 points)**
   * **(5 points)** Binary (i.e., no extended operands---exactly two operands) relational `InfixExpressions` (e.g. `<`, `>`, `<=`, `>=`, `==`, and `!=`)
   * **(10 points)** Binary logical `InfixExpressions` (e.g., `||`, `&&`)
   * **(5 points)** Logical `PrefixExpressions` (e.g., `!`)
-  * **(10 points)** `IfStatement`
-  * **(10 points)** `WhileStatement`
-  * **(10 points)** `DoStatement`
+  * **(10 points)** `IfStatement` (reduction and short-circuiting with two operands)
+  * **(10 points)** `WhileStatement` (reduction and short-circuiting with two operands)
+  * **(10 points)** `DoStatement` (reduction and short-circuiting with two operands)
   
