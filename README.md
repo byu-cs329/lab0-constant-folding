@@ -154,12 +154,25 @@ Removing empty statements is not required---completely uncompensated and not req
 
 The static type checker should support a [subset of Java](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/java-subset/java-subset.md). If something seems unusually hard then be sure it is in the [language subset](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/java-subset/java-subset.md).
 
+To be clear, constant folding only needs to be supported in the following:
+
+  * Numeric `InfixExpressions` (e.g., `+`, `-`,`*`, and `/`) when all operands are literals (including extended operands)
+  * Binary (i.e., no extended operands---exactly two operands) relational `InfixExpressions` (e.g. `<`, `>`, `<=`, `>=`, `==`, and `!=`)
+  * Binary logical `InfixExpressions` (e.g., `||`, `&&`)
+  * Logical `PrefixExpressions` (e.g., `!`)
+  * `IfStatement`
+  * `WhileStatement`
+  * `DoStatement`
+
+Note the restriction on extended operands to numeric expressions and only in the case when all operands are literals.
+
 # Lab Requirements
 
   1. Implement a test framework, with tests, using black-box functional test techniques to determine when constant folding works correctly. The tests should be organized in a way to make clear the input partitioning.
   2. Implement constant folding for the Java Subset with the [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html)
-  
 
+If it highly reccomended to implement multiple visitors. For example, implemente one visitor to fold `InfixExpressions` and a second visitor te fold statements after expressions are reduced.
+  
 ## Suggested order of attack:
 
 Write the test framework and tests first. Then use test driven development to implement constant folding. If you write a good set of tests, then those tests will set the agenda for the implementation and signal when the implementation is done.
@@ -185,7 +198,17 @@ Create a pull request when the lab is done. Submit to Canvas the URL of the repo
 | ------- | ----------- | ---------- |
 | Oracle(s) strong enough to determine when output is valid | 50 | |
 | Tests that divide the input space in a reasoned, systematic, and somewhat complete way | 50 |
-| Consistent, readable, and descriptive naming of tests | 10 | |
 | Appropriate use of `@Nested`, `@Tag`, and `@DisplayName` to organize and communicate the test methodology | 30 | | 
-| Implementation of constant folding | 40 | |
-| Adherence to best practices (e.g., no errors, no warnings, documented code, well grouped commits, appropriate commit messages, etc.) | 20 | |
+| Implementation of constant folding | 60 | |
+| Adherence to best practices (e.g., good names, no errors, no warnings, documented code, well grouped commits, appropriate commit messages, etc.) | 10 | |
+
+Breakdown of Implementation **(60 points)**
+
+  * **(10 points)** Numeric `InfixExpressions` (e.g., `+`, `-`,`*`, and `/`) when all operands are literals (including extended operands)
+  * **(5 points)** Binary (i.e., no extended operands---exactly two operands) relational `InfixExpressions` (e.g. `<`, `>`, `<=`, `>=`, `==`, and `!=`)
+  * **(10 points)** Binary logical `InfixExpressions` (e.g., `||`, `&&`)
+  * **(5 points)** Logical `PrefixExpressions` (e.g., `!`)
+  * **(10 points)** `IfStatement`
+  * **(10 points)** `WhileStatement`
+  * **(10 points)** `DoStatement`
+  
