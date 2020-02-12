@@ -135,7 +135,7 @@ if (false) {
 }
 ```
 
-reduces to ```;``` which is the ```EmptyStatemest```. In this way it is no longer necessary to deal with empty blocks or empty expressions in if-statements.
+reduces to ```;``` which is the ```EmptyStatement```. In this way it is no longer necessary to deal with empty blocks or empty expressions in if-statements.
 
 ```java
 if (x)
