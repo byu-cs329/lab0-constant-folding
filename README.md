@@ -201,6 +201,7 @@ Create a pull request when the lab is done. Submit to Canvas the URL of the repo
 | Appropriate use of `@Nested`, `@Tag`, and `@DisplayName` to organize and communicate the test methodology | 30 | | 
 | Implementation of constant folding | 60 | |
 | Adherence to best practices (e.g., good names, no errors, no warnings, documented code, well grouped commits, appropriate commit messages, etc.) | 10 | |
+| Extra credit short circuit reduction, at least two tests (+20) | 0 | |
 
 Breakdown of Implementation **(60 points)**
 
