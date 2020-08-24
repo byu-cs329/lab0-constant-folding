@@ -88,8 +88,8 @@ public class ConstantFolding {
    */
   public static void main(String[] args) {
     if (args.length != 2) {
-      log.error("Missing Java input file or output file on command line");
-      System.out.println("usage: java DomViewer <java file to parse> <html file to write>");
+      log.error("Missing Java input file or output file or both on command line");
+      System.out.println("usage: java ConstantFolding <input file> <output file>");
       System.exit(1);
     }
 

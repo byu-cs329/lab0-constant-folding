@@ -17,3 +17,5 @@ buildNumber.properties
 .classpath
 *.log
 .checkstyle
+.devcontainer
+.factorypath
