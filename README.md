@@ -156,41 +156,51 @@ This course is only going to consider a very narrow [subset of Java](https://bit
 
 # Where to Apply Constant Folding
 
-Constant folding is **only applied** to the following types of expressions and statements (ordered roughly from easiest to hardest)
+Constant folding **only applied** to the following types of `ASTNode` expressions and statements:
 
-  * `ParenthesizedExpressions` that contain only a literal
-  * Logical `PrefixExpressions` for `!`
-  * Numeric `InfixExpressions` for `+` and `-` and if and only if all the operands are of type `Literal` including the extended operands
-  * Binary relational `InfixExpressions` for `<` and `==`
-  * Binary logical `InfixExpressions` for `||` and `&&`
+  * `ParenthesizedExpression` that contain only a literal
+  * Logical `PrefixExpression` for `!`
+  * Numeric `InfixExpression` for `+` if and only if all the operands are of type `NumberLiteral` including the extended operands
+  * Binary relational `InfixExpression` for `<` and `==`
+  * Binary logical `InfixExpression` for `||` and `&&`
   * `IfStatement`
   * `WhileStatement`
-  * `DoStatement`
 
 This set of expressions and statemenst are more narrow than what is allowed in the Java subset. That is OK. Folding is only applied to the above program features.  Also, folding should be applied iteratively until no furter reduction is possible.
 
 # Lab Requirements
 
-  0. Write a specification for each type of supported folding. The specification should include a model of the [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html) and a convenient notation to quantify over the supported types for folding in the [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html). 
-  1. Implement a black-box functional test framework for each type of expression or statement that is supported that takes as input an [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html) and tests if the updated object after folding is as expected. Assume that any input [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html) conforms to the Java subset though you are not required to test this assumption. The tests should be organized in a way to make clear the black-box test methodology and its relation to the specification.
-  2. Implement constant folding for each supported feature by implementing visitors on the [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html). Each supported feature should be implemented by a unique visitor. For example, implement one visitor to fold `ParenthesizedExpressions`, a second visitor to fold `PrefixExpressions`, a third visitor to fold numeric `InfixExpressions` with only literals, etc. The visitors are applied iteratively until no further reductions take place.
+  0. Write a specification for each type of supported folding. The input to each supported folding is an instance of an  `ASTNode` (usually a `CompilationUnit`) in the [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html) that may (or may not) be changed in some way by the folding. Assume (no need to check) that the input conforms to the Java subset for this lab. 
+  1. Implement a black-box functional test framework for each type folding that can be applied in this lab. The tests should be organized in a way to make clear the black-box test methodology and its relation to the specification. Do not include redundant tests or tests not part of the black-box method as these will be penalized.
+  2. Implement constant folding for each supported feature with a vistor. As such, each folding feature should have its own unique visitor implementation. For example, there should be a first visitor to fold `ParenthesizedExpressions`, a second visitor to fold `PrefixExpressions`, a third visitor to fold numeric `InfixExpressions` with only literals, etc. The visitors are applied iteratively until no further reductions take place.
+  3. Add each visitor to `ConstantFolding.fold` as it is completed.
 
 ## Suggested order of attack:
 
-Approach the lab is small steps starting with the easiest type of folding and then growing out. For example, start with just `ParethesizedExpressions` that contain only a literal. Write the specification. Create the test framework with tests. And then implement the actual visitor. Repeat the process until done.
+Approach the lab in small steps starting with the easiest type starting with `PrefixExpression` as it is similar to `ParenthesizedExpressions` that is given as part of the lab distribution. 
 
-Write the specification, test framework, tests first. These are the most important not just because they are worth more points but because in test driven development, if you write a good set of tests, then those tests set the agenda for the implementation and signal when the implementation is done.
+   0. Read and understand everything related to `ParenthesizedExpression`
+   1. Write the specification for `PrefixExpression`
+   2. Create the tests from the specification
+   3. Implement the actual visitor. 
 
-Organize the tests in a way that communicates the reasoning behind the tests. Use the `@Nested`, `@Tag`, and `@DisplayName` to convey clearly how and why the tests are grouped.
+Repeat for the other ways to fold. As a note, (3) can be delayed until all the specification and tests are written. What is important is that the **implementation is written after the specification and tests.**
 
-For the test framework, here are some things to consider:
+# POM Notes
 
-  * How will you determine that the output is correct (i.e., that constant folding happened correctly)? In the [DOM-Visitor](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/DOM-Visitor/) lecture, the `NumberLiteral` expressions were recorded after the folding and verified to meet a specific criteria. That is only a starting point and not a solution. Is there one method that will work for all the ways to fold?
-  * How can you partition the input space to systematically cover ways that constant folding may appear and affect code?  In the [DOM-Visitor](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/DOM-Visitor/) lecture, it starts with a single expression with only two `NumberLiteral` operands. It then adds a single binary expression, with one operand being a binary expression with only `NumberLiteral` operands. Consider such a starting point. Also consider how constant folding might change code or remove code. These too should be part of the input partitioning exercise.
-  * What would a boundary value analysis look like?
-  * How can you isolate things to only test one feature at time? For example, it may not be wise to write a test to see if **dead code** is removed correctly that relies on the implementation for short-circuit evaluation of boolean expressions to be working as expected.
+The `mvn test` uses the Surefire plugin to generat console reports and additional reports in `./target/surefire-reports`. The console report extension is configure to use the `@DisplayName` for the tests and generally works well except in the case of tests in `@Nested`, tests in `@ParameterizedTest`, or `@DynamicTest`. For these, the console report extension is less than ideal as it does not use the `@DisplayName` all the time a groups `@ParameterisedTest` and `@DynamicTest` into a single line report.
 
-Do not implement more than is required by the test, and do not be afraid to create a lot of tests. Let the test define what needs to be implemented. Create a test for everything that needs to be implemented according to the input partitions. Add code to throw `UnsupportedException` for things not yet implemented as you code along. For example, if additions is the only thing implemented so far, then expressions with other operators should throw on exception. In this way it is easier to keep track of what is yet to be implemented.
+The `./target/surefire-reports/TEST-<fully qualified classname>.xml` file is the detailed report of all the tests in the class that uses the correct `@DisplayName`. The file is very useful for isolating failed parameterized or dynamic tests. The regular text files in the directory only show what Maven shows. That said, many IDEs present a tree view of the tests with additional information for `@Nested`, `@ParameterizedTest`, `@DynamicTest`, `@RepeatTest`, etc. This tree view can be generated with the JUnit `ConsoleLauncher`. 
+
+The POM in the project is setup to run the [JUnit Platform Console Standalone](https://mvnrepository.com/artifact/org.junit.platform/junit-platform-console-standalone) on the `mvn exec:java` goal in the build phase. The POM sets the arguments to scan for tests, `--scan-classpath`, with `./target/test-classes` being added to the class path. The equivalent command line (and the defauld defined in the POM):
+
+```
+mvn exec:java -Dexec.mainClass=org.junit.platform.console.ConsoleLauncher -Dexec.args="--class-path=./target/test-classes --scan-classpath"
+```
+
+The above is what is run with just the command `mvn exec:java`.
+
+The `ConsoleLauncher` is able to run specific tests and classes, so it is possible to change the `--scan-path` argument, either in the POM file or by typing in the above on the command line. [Section 4.3.1](https://junit.org/junit5/docs/current/user-guide/#running-tests-console-launcher) of the JUnit 5 users lists all the options.
 
 # What to turn in?
 
@@ -217,3 +227,11 @@ Breakdown of Implementation **(60 points)**
   * **(10 points)** `WhileStatement` (reduction and short-circuiting with two operands)
   * **(10 points)** `DoStatement` (reduction and short-circuiting with two operands)
   
+# Notes
+
+For the test framework, here are some things to consider:
+
+  * The valid input space is vast. When creating the test for valid input, how can you choose an interesting input? 
+  * What would a boundary value analysis look like? 
+  * Watch carefully what imports are added by the IDE in the testing code to be sure it is importing from the Jupiter API as behavior changes in the IDE if it grabs from the wrong JUnit API and annotations will not work as expected. 
+  * Be sure the logger imports use the `slf4j` interface.
