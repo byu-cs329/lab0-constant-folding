@@ -24,18 +24,17 @@ public class ConstantFolding {
    * @return The root ASTNode for the constant folded version of the input.
    */
   public static ASTNode fold(ASTNode compilationUnit) {
-    boolean isChanged = false;
-    ParenthesizedExpressionFolding parenthesizedExpressionFolding = new ParenthesizedExpressionFolding();
+    boolean isChanged = true;
+    ParenthesizedExpressionFolding parenthesizedExpressionFolding = 
+        new ParenthesizedExpressionFolding();
 
-    do {
+    while (isChanged == true) {
       isChanged = false;
       isChanged = isChanged || parenthesizedExpressionFolding.fold(compilationUnit);
-
       log.warn("TODO: add other ways to fold");
-    // TODO: add other ways to fold
-    } while(isChanged == true);
+      // TODO: add other ways to fold
+    } 
 
-    
     return compilationUnit;
   }
 

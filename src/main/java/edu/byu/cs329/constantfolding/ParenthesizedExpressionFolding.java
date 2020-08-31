@@ -57,7 +57,8 @@ public class ParenthesizedExpressionFolding {
       }
 
       StructuralPropertyDescriptor location = node.getLocationInParent();
-      Utils.requiresNonNull(location, "The location cannot be null in Visitor.endVisit with a new expression to set.");
+      Utils.requiresNonNull(location, 
+          "The location cannot be null in Visitor.endVisit with a new expression to set.");
       Utils.setNewChildInParent(node, newExp);
       newExp = null;
       didFold = true;
@@ -92,18 +93,19 @@ public class ParenthesizedExpressionFolding {
    * @requires (root instanceof CompilationUnit) \/ parent(root) != null
    * 
    * @ensures nodes(root) = 
-   *   old(nodes(root)) \ old(top(root)) \cup old(between(root))
+   *     old(nodes(root)) \ old(top(root)) \cup old(between(root))
    * @ensures \forall n \in old(top(root)),
-   *      parent(old(bottom(n))) = old(parent(n)))
-   *   /\ children(old(parent(n))) = 
+   *        parent(old(bottom(n))) = old(parent(n)))
+   *     /\ children(old(parent(n))) = 
    *        (old(children(parent(n))) \setminus {n}) \cup {old(bottom(n))}
    * @ensures \forall n \in (old(nodes(root)) \setminus 
-   *    (old(top(root)) \cup old(between(root)) \cup old(topParents(root))),
-   *      parents(n) = old(parents(n))
-   *   /\ children(n) = old(children(n))
-   * @ensures top(root) = \emptyset 
-   *   /\ between(root) = \emptyset 
-   *   /\ topParents = \emptyset
+   *        (old(top(root)) \cup old(between(root)) \cup old(topParents(root))),
+   *        parents(n) = old(parents(n))
+   *     /\ children(n) = old(children(n))
+   * @ensures top(root) = 
+   *        \emptyset 
+   *     /\ between(root) = \emptyset 
+   *     /\ topParents = \emptyset
    *  
    * @param root the root of the tree to traverse.
    * @return true if parenthesized literals were replaced in the rooted tree
@@ -120,7 +122,7 @@ public class ParenthesizedExpressionFolding {
  
     if (!(root instanceof CompilationUnit) && root.getParent() == null) {
       Utils.throwRuntimeException(
-        "Non-CompilationUnit root with no parent passed to ParenthesizedExpressionFolding.fold"
+          "Non-CompilationUnit root with no parent passed to ParenthesizedExpressionFolding.fold"
       );
     }
   }

@@ -123,7 +123,8 @@ public final class Utils {
       oldChild.getParent().setStructuralProperty(location, newChild);
     } else if (location.isChildListProperty()) {
       @SuppressWarnings("unchecked")
-      List<ASTNode> propertyListForLocation = (List<ASTNode>)(oldChild.getParent().getStructuralProperty(location));
+      List<ASTNode> propertyListForLocation = 
+          (List<ASTNode>)(oldChild.getParent().getStructuralProperty(location));
       propertyListForLocation.set(propertyListForLocation.indexOf(oldChild), newChild);
     } else {
       String msg = new String("Location \'" + location.toString() + "\' is not supported");
