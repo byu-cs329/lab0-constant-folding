@@ -102,8 +102,7 @@ public class ParenthesizedExpressionFolding {
    *        (old(top(root)) \cup old(between(root)) \cup old(topParents(root))),
    *        parents(n) = old(parents(n))
    *     /\ children(n) = old(children(n))
-   * @ensures top(root) = 
-   *        \emptyset 
+   * @ensures top(root) = \emptyset 
    *     /\ between(root) = \emptyset 
    *     /\ topParents = \emptyset
    *  
