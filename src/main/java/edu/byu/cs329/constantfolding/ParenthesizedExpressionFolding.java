@@ -79,7 +79,7 @@ public class ParenthesizedExpressionFolding {
    *                 is an outermost parenthesized expression that ends
    *                 in a literal
    * 
-   * <p>topParents(n) := all nodes such that each done in the parent
+   * <p>topParents(n) := all nodes such that each one is the parent
    *                     of some node in top(root)
    * 
    * <p>inbetween(n) := all nodes reachable from root such that each 
