@@ -10,7 +10,6 @@ import org.eclipse.jdt.core.dom.NullLiteral;
 import org.eclipse.jdt.core.dom.NumberLiteral;
 import org.eclipse.jdt.core.dom.ParenthesizedExpression;
 import org.eclipse.jdt.core.dom.StringLiteral;
-import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
 import org.eclipse.jdt.core.dom.TypeLiteral;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +23,6 @@ public class ParenthesizedExpressionFolding implements Folding {
   static final Logger log = LoggerFactory.getLogger(ParenthesizedExpressionFolding.class);
   
   class Visitor extends ASTVisitor {
-
-    private ASTNode newExp = null;
     public boolean didFold = false;
 
     private boolean isLiteralExpression(ASTNode exp) {
@@ -38,29 +35,14 @@ public class ParenthesizedExpressionFolding implements Folding {
     }
     
     @Override
-    public boolean visit(ParenthesizedExpression node) {
-      node.getExpression().accept(this);
-      ASTNode exp = node.getExpression();
-      if (isLiteralExpression(exp)) {
-        AST ast = node.getAST();
-        newExp = ASTNode.copySubtree(ast, exp);
-      } else {
-        newExp = null;
-      }
-      return false;
-    }
-
-    @Override
     public void endVisit(ParenthesizedExpression node) {
-      if (newExp == null) {
+      ASTNode exp = node.getExpression();
+      if (!isLiteralExpression(exp)) {
         return;
       }
-
-      StructuralPropertyDescriptor location = node.getLocationInParent();
-      Utils.requiresNonNull(location, 
-          "The location cannot be null in Visitor.endVisit with a new expression to set.");
+      AST ast = node.getAST();
+      ASTNode newExp = ASTNode.copySubtree(ast, exp);
       Utils.setNewChildInParent(node, newExp);
-      newExp = null;
       didFold = true;
     }
   }
