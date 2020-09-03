@@ -82,7 +82,7 @@ public class ParenthesizedExpressionFolding implements Folding {
    * <p>topParents(root) := all nodes such that each one is the parent
    *                        of some node in top(root)
    * 
-   * <p>inbetween(n) := all nodes reachable from root such that each 
+   * <p>between(n) := all nodes reachable from root such that each 
    *                    node is a parenthesized expression that is 
    *                    nested in some top most node
    * 
