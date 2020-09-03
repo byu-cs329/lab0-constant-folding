@@ -79,8 +79,8 @@ public class ParenthesizedExpressionFolding implements Folding {
    *                 is an outermost parenthesized expression that ends
    *                 in a literal
    * 
-   * <p>topParents(n) := all nodes such that each one is the parent
-   *                     of some node in top(root)
+   * <p>topParents(root) := all nodes such that each one is the parent
+   *                        of some node in top(root)
    * 
    * <p>inbetween(n) := all nodes reachable from root such that each 
    *                    node is a parenthesized expression that is 
@@ -98,9 +98,10 @@ public class ParenthesizedExpressionFolding implements Folding {
    * @ensures \forall n \in old(top(root)),
    *        parent(old(bottom(n))) = old(parent(n)))
    *     /\ children(old(parent(n))) = 
-   *        (old(children(parent(n))) \setminus {n}) \cup {old(bottom(n))}
+   *          (old(children(parent(n))) \setminus {n}) \cup {old(bottom(n))}
+   * @ensures \forall n \in old(topParents(root)), parent(n) = old(parent(n))
    * @ensures \forall n \in (old(nodes(root)) \setminus 
-   *        (old(top(root)) \cup old(between(root)) \cup old(topParents(root))),
+   *          (old(top(root)) \cup old(between(root)) \cup old(topParents(root))),
    *        parents(n) = old(parents(n))
    *     /\ children(n) = old(children(n))
    * @ensures top(root) = \emptyset 
