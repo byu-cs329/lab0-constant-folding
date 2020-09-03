@@ -166,7 +166,7 @@ Constant folding **only applied** to the following types of `ASTNode` expression
   * `IfStatement`
   * `WhileStatement`
 
-This set of expressions and statemenst are more narrow than what is allowed in the Java subset. That is OK. Folding is only applied to the above program features.  Also, folding should be applied iteratively until no furter reduction is possible.
+Assume that anything that involves `NumberLiteral` instances are of type `int` always. This set of expressions and statements are more narrow than what is allowed in the Java subset. That is OK. Folding is only applied to the above program features.  Also, folding should be applied iteratively until no furter reduction is possible.
 
 # Lab Requirements
 
