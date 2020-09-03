@@ -2,6 +2,9 @@ package edu.byu.cs329.constantfolding;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,14 +28,17 @@ public class ConstantFolding {
    */
   public static ASTNode fold(ASTNode compilationUnit) {
     boolean isChanged = true;
-    ParenthesizedExpressionFolding parenthesizedExpressionFolding = 
-        new ParenthesizedExpressionFolding();
-
+    List<Folding> foldingList = new ArrayList<Folding>();
+    foldingList.add(new ParenthesizedExpressionFolding());
+    // TODO: add other ways to fold
+  
     while (isChanged == true) {
+      for (Folding folding : foldingList) {
+        isChanged = isChanged || folding.fold(compilationUnit);
+      }
       isChanged = false;
-      isChanged = isChanged || parenthesizedExpressionFolding.fold(compilationUnit);
+      
       log.warn("TODO: add other ways to fold");
-      // TODO: add other ways to fold
     } 
 
     return compilationUnit;

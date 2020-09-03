@@ -1,11 +1,9 @@
 package edu.byu.cs329.constantfolding;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
 
-import org.eclipse.jdt.core.dom.ASTMatcher;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,16 +38,18 @@ public class ParenthesizedExpressionFoldingTests {
   }
 
   @Test
+  @DisplayName("Should not fold anything when there are no parenthesized literals")
+  void should_NotFoldAnything_when_ThereAreNoParenthesizedLiterals() {
+    String rootName = "parenthesizedLiterals/should_NotFoldAnything_when_ThereAreNoParenthesizedLiterals.java";
+    String expectedName = "parenthesizedLiterals/should_NotFoldAnything_when_ThereAreNoParenthesizedLiterals.java";
+    MoreUtils.assertDidNotFold(this, rootName, expectedName, folderUnderTest);
+  }
+
+  @Test
   @DisplayName("Should only fold parenthesized literals when given multiple types")
   void should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes() {
     String rootName = "parenthesizedLiterals/should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes-root.java";
-    URI rootUri = Utils.getUri(this, rootName);
-    ASTNode root = Utils.getCompilationUnit(rootUri);
-    assertTrue(folderUnderTest.fold(root));
-
     String expectedName = "parenthesizedLiterals/should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes.java";
-    URI expectedUri = Utils.getUri(this, expectedName);
-    ASTNode expected = Utils.getCompilationUnit(expectedUri);
-    assertTrue(expected.subtreeMatch(new ASTMatcher(), root));
+    MoreUtils.assertDidFold(this, rootName, expectedName, folderUnderTest);
   }
 }

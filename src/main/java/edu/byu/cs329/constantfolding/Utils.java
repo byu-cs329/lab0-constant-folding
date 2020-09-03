@@ -17,7 +17,7 @@ import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class Utils {
+public class Utils {
   static final Logger log = LoggerFactory.getLogger(Utils.class);
 
   /**

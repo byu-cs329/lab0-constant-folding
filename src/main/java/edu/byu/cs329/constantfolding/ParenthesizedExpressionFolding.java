@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Eric Mercer
  */
-public class ParenthesizedExpressionFolding {
+public class ParenthesizedExpressionFolding implements Folding {
   static final Logger log = LoggerFactory.getLogger(ParenthesizedExpressionFolding.class);
   
   class Visitor extends ASTVisitor {
@@ -92,8 +92,9 @@ public class ParenthesizedExpressionFolding {
    * @requires root != null
    * @requires (root instanceof CompilationUnit) \/ parent(root) != null
    * 
+   * @ensures fold(root) == !(old(top(root)) == \emptyset)
    * @ensures nodes(root) = 
-   *     old(nodes(root)) \ old(top(root)) \cup old(between(root))
+   *     old(nodes(root)) \ (old(top(root)) \cup old(between(root)))
    * @ensures \forall n \in old(top(root)),
    *        parent(old(bottom(n))) = old(parent(n)))
    *     /\ children(old(parent(n))) = 

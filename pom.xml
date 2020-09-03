@@ -27,7 +27,6 @@
 		<jdt.core.version>3.7.1</jdt.core.version>
 		<log4j.slf4j.version>2.11.1</log4j.slf4j.version>
 		<exec.maven.version>3.0.0</exec.maven.version>
-	  <exec.mainClass>edu.byu.cs329.constantfolding.ConstantFolding</exec.mainClass>
 	</properties>
 
 	<dependencies>
