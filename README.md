@@ -135,7 +135,7 @@ Constant folding is **only required** for the following types of `ASTNode` expre
   * Logical not `PrefixExpression`, `!`, when applied to `BooleanLiteral`
   * Numeric `InfixExpression` for `+` if and only if all the operands are of type `NumberLiteral` including the extended operands
   * Binary relational `InfixExpression`, `<`, if and only if both operands are of type `NumberLiteral`
-  * `IfStatement`
+  * `IfStatement` if and only if the predicate is a `BooleanLiteral`
  
 Assume that any `NumberLiteral` instance is of type `int` always. This set of expressions and statements are much more narrow than what is allowed in the Java subset. That is OK. Folding is only applied to the above program features.  Also, folding should be applied iteratively until no furter reduction is possible.
 
