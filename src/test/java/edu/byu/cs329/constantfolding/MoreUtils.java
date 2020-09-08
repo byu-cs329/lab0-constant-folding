@@ -8,8 +8,12 @@ import java.net.URI;
 
 import org.eclipse.jdt.core.dom.ASTMatcher;
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MoreUtils extends Utils {
+  static Logger log = LoggerFactory.getLogger(Utils.class);
+  
   public static ASTNode getASTNodeFor(final Object t, String name){
     URI uri = Utils.getUri(t, name);
     assertNotNull(uri);
@@ -18,8 +22,10 @@ public class MoreUtils extends Utils {
   }
 
   public static void assertDidFold(final Object t, String rootName, String expectedName, Folding folderUnderTest) {
-    ASTNode root = getASTNodeFor(t, rootName);  
-    assertTrue(folderUnderTest.fold(root));
+    ASTNode root = getASTNodeFor(t, rootName);
+    Boolean didFold = folderUnderTest.fold(root);
+    log.debug(root.toString());
+    assertTrue(didFold);
     ASTNode expected = getASTNodeFor(t, expectedName);
     assertTrue(expected.subtreeMatch(new ASTMatcher(), root));
   }
