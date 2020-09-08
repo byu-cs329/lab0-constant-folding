@@ -42,7 +42,7 @@ public class ParenthesizedExpressionFolding implements Folding {
       }
       AST ast = node.getAST();
       ASTNode newExp = ASTNode.copySubtree(ast, exp);
-      Utils.setNewChildInParent(node, newExp);
+      Utils.replaceChildInParent(node, newExp);
       didFold = true;
     }
   }
