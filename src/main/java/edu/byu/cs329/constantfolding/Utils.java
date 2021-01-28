@@ -1,4 +1,4 @@
-package edu.byu.cs329.typechecker;
+package edu.byu.cs329.constantfolding;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,13 +16,8 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.eclipse.jdt.core.dom.Name;
-import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.SimpleName;
-import org.eclipse.jdt.core.dom.SimpleType;
-import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
-import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
@@ -203,63 +198,6 @@ public class Utils {
   private static String getName(Object fragments) {
     VariableDeclaration declaration = Utils.getFragment(fragments);
     return Utils.getName(declaration.getName());
-  }
-
-  public static String getType(FieldDeclaration field) {
-    return Utils.getType(field.getType());
-  }
-
-  public static String getType(MethodDeclaration method) {
-    return Utils.getType(method.getReturnType2());
-  }
-  
-  public static String getType(SingleVariableDeclaration declaration) {
-    return Utils.getType(declaration.getType());
-  }
-
-  public static String getType(VariableDeclarationStatement declaration) {
-    return Utils.getType(declaration.getType());
-  }
-
-  private static String getType(Type type) {
-    String typeName = null;
-    if (type.isPrimitiveType()) {
-      typeName = getType((PrimitiveType)type);
-    } else if (type.isSimpleType()) {
-      typeName = getType((SimpleType)type);
-    } else {
-      Utils.throwRuntimeException(type.toString() + " is not a simple or primitive type");
-    }
-    return typeName;
-  }
-
-  private static String getType(SimpleType type) {
-    Name name = type.getName();
-    String typeName = null;
-    if (name instanceof SimpleName) {
-      typeName = Utils.getName((SimpleName)name);
-    } else {
-      Utils.throwRuntimeException(name.getFullyQualifiedName() 
-          + " is not a SimpleName");
-    }
-    return typeName;
-  }
-
-  private static String getType(PrimitiveType type) {
-    String typeName = null;
-    if (type.getPrimitiveTypeCode() == PrimitiveType.INT) {
-      typeName = TypeCheckTypes.INT;
-    } else if (type.getPrimitiveTypeCode() == PrimitiveType.BOOLEAN) {
-      typeName = TypeCheckTypes.BOOL;
-    } else if (type.getPrimitiveTypeCode() == PrimitiveType.VOID) {
-      typeName = TypeCheckTypes.VOID;
-    } else {
-      // Not tested
-      Utils.throwRuntimeException("primitive type " 
-          + type.toString() 
-          + " is not an int, boolean, or void");
-    }
-    return typeName;
   }
 
   public static Expression getInitializer(VariableDeclarationStatement declarationStatement) {
