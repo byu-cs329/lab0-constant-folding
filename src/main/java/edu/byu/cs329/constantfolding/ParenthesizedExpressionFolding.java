@@ -56,6 +56,8 @@ public class ParenthesizedExpressionFolding implements Folding {
    * <p>Visits the root and any reachable nodes from the root to replace
    * any ParenthesizedExpression reachable node containing a literal
    * with the literal itself.
+   *
+   * <p>nodes(root) := all nodes reachable from root
    * 
    * <p>top(root) := all nodes reachable from root such that each node 
    *                 is an outermost parenthesized expression that ends
@@ -64,9 +66,9 @@ public class ParenthesizedExpressionFolding implements Folding {
    * <p>topParents(root) := all nodes such that each one is the parent
    *                        of some node in top(root)
    * 
-   * <p>between(n) := all nodes reachable from root such that each 
-   *                    node is a parenthesized expression that is 
-   *                    nested in some top most node
+   * <p>between(root) := all nodes reachable from root such that each 
+   *                     node is a parenthesized expression that is 
+   *                     nested in some top most node
    * 
    * <p>bottom(n) := if n \in top(root), then the literal from the 
    *                 innermost expression of n and otherwise undefined.
@@ -76,7 +78,7 @@ public class ParenthesizedExpressionFolding implements Folding {
    * 
    * @ensures fold(root) == !(old(top(root)) == \emptyset)
    * @ensures nodes(root) = 
-   *     old(nodes(root)) \ (old(top(root)) \cup old(between(root)))
+   *     old(nodes(root)) \setminus (old(top(root)) \cup old(between(root)))
    * @ensures \forall n \in old(top(root)),
    *        parent(old(bottom(n))) = old(parent(n)))
    *     /\ children(old(parent(n))) = 
