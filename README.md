@@ -65,6 +65,15 @@ x = 10;
 
 In the above example, the constant folding removed **dead code** that was not reachable on any input.
 
+For this lab, you don't need to remove the braces -- it is more difficult that is necessary. So the above should look like:
+
+```java
+{ x = 10;
+}
+```
+
+# Advandced Folding (Optional)
+
 Be aware that [short circuit evaluation](https://en.wikipedia.org/wiki/Short-circuit_evaluation) comes into play for constant folding. For example ```a.f() && false``` cannot be reducted to ```false``` because it is not known if the call to ```a.f()``` side effects on the state of the class, so it's call must be preseved. That said, ```a.y() && false && b.y()``` can be reduced to ```a.y() && false``` since the call to ```b.y()``` will never take place.  As another example, consider ```a.y() || b.y() || true || c.y()```. Here the call to ```c.y()``` will never take place so the expression reduces to ```a.y() || b.y() || true```.
 
 It is also possible to remove literals that have no effect on the expression. For example ```a.y() && true``` reduces to ```a.y()```. Similarly, ```a.y() || false || b.y()``` reduces to ```a.y() || b.y()```.  Always be aware of [short circuit evaluation](https://en.wikipedia.org/wiki/Short-circuit_evaluation) in constant folding since method calls can side-effect on the state of the class, those calls must be presered as shown in the examples above. 
@@ -121,7 +130,7 @@ if (!a.f()) {
 x = 10;
 ```
 
-This level of reduction (short-circuiting with three operands) is not required for this lab. It can be implemented, with appropriate tests, for extra credit if so desired.
+If you implement short-circuiting of two parameters with appropriate tests, notify the instructor to receive extra credit.
 
 # Java Subset
 
